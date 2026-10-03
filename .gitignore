@@ -1,0 +1,7 @@
+node_modules
+.env
+*.log
+
+# WhatsApp login session and mummy's data: never commit
+auth/
+reme.db*

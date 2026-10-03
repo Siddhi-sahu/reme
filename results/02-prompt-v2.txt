@@ -1,0 +1,40 @@
+$ tsx scripts/test-hinglish.ts
+Model: gemma3:4b
+
+✅ [13:30] "haan beta khana kha liya"
+   → meal_done (lunch)  2604ms
+   reply: Bahut achcha mummy! Vitamin baad mein yaad rakhna.
+
+✅ [09:00] "abhi nashta kiya"
+   → meal_done (breakfast)  2293ms
+   reply: Bahut achcha mummy! Vitamin baad mein yaad rakho.
+
+✅ [13:50] "le li goli"
+   → vitamin_taken  2058ms
+   reply: Achha mummy! 👍
+
+✅ [21:15] "vitamin kha li"
+   → vitamin_taken  2037ms
+   reply: Achha mummy! 👍
+
+✅ [14:00] "baad mein lungi"
+   → snooze  2226ms
+   reply: Theek hai mummy, baad mein lungi!
+
+✅ [14:00] "10 min ruko pehle bartan dho lu"
+   → snooze snooze=10m  2565ms
+   reply: Theek hai mummy, 10 minute baad vitamin yaad dilaungi.
+
+✅ [20:30] "aaj nahi lena, pet kharab hai"
+   → skip (unknown)  2196ms
+   reply: Theek hai mummy, pet kharab hai.
+
+✅ [21:30] "dinner ke baad tablet bhi le li"
+   → vitamin_taken (dinner)  2181ms
+   reply: Shabash mummy! 👍
+
+✅ [18:00] "tum kab aa rahi ho ghar?"
+   → other  2209ms
+   reply: Aapse kitni khushi milenge mummy!
+
+9/9 correct

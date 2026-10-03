@@ -1,0 +1,34 @@
+// Run: pnpm test:hinglish
+// Checks whether Gemma understands the kind of messages mummy actually sends.
+import { parseMessage, MODEL } from "../src/intent.ts";
+
+const cases: { text: string; at: string; expect: string }[] = [
+  { text: "haan beta khana kha liya", at: "13:30", expect: "meal_done" },
+  { text: "abhi nashta kiya", at: "09:00", expect: "meal_done" },
+  { text: "le li goli", at: "13:50", expect: "vitamin_taken" },
+  { text: "vitamin kha li", at: "21:15", expect: "vitamin_taken" },
+  { text: "baad mein lungi", at: "14:00", expect: "snooze" },
+  { text: "10 min ruko pehle bartan dho lu", at: "14:00", expect: "snooze" },
+  { text: "aaj nahi lena, pet kharab hai", at: "20:30", expect: "skip" },
+  { text: "dinner ke baad tablet bhi le li", at: "21:30", expect: "vitamin_taken" },
+  { text: "tum kab aa rahi ho ghar?", at: "18:00", expect: "other" },
+];
+
+let pass = 0;
+console.log(`Model: ${MODEL}\n`);
+for (const c of cases) {
+  const [h, m] = c.at.split(":").map(Number);
+  const now = new Date();
+  now.setUTCHours(h - 5, m - 30); // IST -> UTC
+  const t0 = Date.now();
+  const r = await parseMessage(c.text, now);
+  const ok = r.intent === c.expect;
+  if (ok) pass++;
+  console.log(
+    `${ok ? "✅" : "❌"} [${c.at}] "${c.text}"\n   → ${r.intent}` +
+      (r.meal ? ` (${r.meal})` : "") +
+      (r.snooze_minutes ? ` snooze=${r.snooze_minutes}m` : "") +
+      `${ok ? "" : `  (expected ${c.expect})`}  ${Date.now() - t0}ms\n   reply: ${r.reply}\n`,
+  );
+}
+console.log(`${pass}/${cases.length} correct`);

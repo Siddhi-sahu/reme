@@ -1,0 +1,35 @@
+{
+  "name": "reme",
+  "version": "1.0.0",
+  "description": "WhatsApp helper that reminds Mummy to take her multivitamin after meals, powered by Gemma running locally",
+  "scripts": {
+    "test:hinglish": "tsx scripts/test-hinglish.ts",
+    "typecheck": "tsc",
+    "simulate": "tsx scripts/simulate.ts",
+    "start": "tsx src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.21.0",
+      "onFail": "download"
+    }
+  },
+  "type": "module",
+  "dependencies": {
+    "baileys": "7.0.0-rc14",
+    "ollama": "^0.6.4",
+    "pino": "^10.3.1",
+    "qrcode-terminal": "^0.12.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "@types/qrcode-terminal": "^0.12.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
