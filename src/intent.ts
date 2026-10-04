@@ -1,5 +1,6 @@
 import ollama from "ollama";
 import { z } from "zod";
+import { mealAt, type Meal } from "./config.ts";
 
 export const MODEL = process.env.OLLAMA_MODEL ?? "gemma3:4b";
 
@@ -41,7 +42,14 @@ Examples:
 "5 min ruko, phone pe hu" -> {"intent":"snooze","meal":null,"snooze_minutes":5,"reply":"Theek hai mummy, 5 minute baad yaad dilaungi."}
 "le li beta" -> {"intent":"vitamin_taken","meal":null,"snooze_minutes":null,"reply":"Shabaash mummy! 💊"}`;
 
-const ACK = /^(ok+|okay|k|acha+|achha+|accha+|theek hai|thik hai|ji|hmm+|👍|🙏)[.!\s]*$/i;
+// Which meal: the word she used, else the clock. Gemma once called "Our Lunch ho gya" at 2:35pm dinner.
+const MEAL_WORDS: [RegExp, Meal][] = [
+  [/nasht|breakfast/i, "breakfast"],
+  [/lunch|dopahar/i, "lunch"],
+  [/dinner|raat/i, "dinner"],
+];
+
+const ACK = /^(ok+h?|okay|k|acha+|achha+|accha+|theek hai|thik hai|ji|hmm+|👍|🙏)[.!\s]*$/i;
 
 export async function parseMessage(text: string, now = new Date(), lastSent?: string): Promise<Intent> {
   const time = now.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" });
@@ -55,6 +63,7 @@ export async function parseMessage(text: string, now = new Date(), lastSent?: st
     options: { temperature: 0 },
   });
   const parsed = Intent.parse(JSON.parse(res.message.content));
+  if (parsed.intent === "meal_done") parsed.meal = MEAL_WORDS.find(([re]) => re.test(text))?.[1] ?? mealAt(now);
   // A delay with no other intent means "remind me later".
   if (parsed.intent === "other" && parsed.snooze_minutes) parsed.intent = "snooze";
   // "ok" to "15 minute mein yaad dilaungi" is not "I took it". Marking it taken would

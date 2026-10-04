@@ -19,6 +19,12 @@ const cases: { text: string; at: string; expect: string; last?: string }[] = [
   { text: "ok", at: "13:36", expect: "other", last: "Theek hai mummy, 15 minute mein vitamin yaad dilaungi 💊" },
   { text: "acha", at: "13:21", expect: "other", last: "Theek hai, 10 minute baad yaad dilaungi" },
   { text: "haan le li", at: "14:55", expect: "vitamin_taken", last: "Mummy, vitamin le lijiye 💊" },
+  // mummy's real messages, Sunday 4 Oct (first real run)
+  { text: "Our Lunch ho gya", at: "14:35", expect: "meal_done" },
+  { text: "Okh", at: "15:17", expect: "other" },
+  { text: "Haan", at: "15:22", expect: "meal_done", last: "Mummy, lunch ho gaya? 🍽️" },
+  { text: "Ok", at: "15:23", expect: "other", last: "Mummy, vitamin le lijiye 💊" },
+  { text: "Ha leli", at: "15:23", expect: "vitamin_taken", last: "Mummy, vitamin le lijiye 💊" },
 ];
 
 let pass = 0;

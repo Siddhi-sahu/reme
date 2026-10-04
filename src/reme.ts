@@ -1,6 +1,6 @@
 // The decision-making. Gemma tells us *what she said*; this decides *what to do*.
 // No WhatsApp or Ollama here, so it can be tested with a fake clock (scripts/simulate.ts).
-import { config, MEALS, type Meal } from "./config.ts";
+import { config, mealAt, MEALS, type Meal } from "./config.ts";
 import type { Dose, Store } from "./db.ts";
 import type { Intent } from "./intent.ts";
 import { say } from "./messages.ts";
@@ -11,11 +11,6 @@ const MIN = 60_000;
 const CHECK_IN_WINDOW = 2 * 60 * MIN; // don't ask about lunch at midnight if the laptop was asleep
 
 export const dateKey = (d: Date) => d.toLocaleDateString("en-CA"); // YYYY-MM-DD
-
-function mealAt(d: Date): Meal {
-  const h = d.getHours();
-  return h < 12 ? "breakfast" : h < 17 ? "lunch" : "dinner";
-}
 
 export class Reme {
   constructor(

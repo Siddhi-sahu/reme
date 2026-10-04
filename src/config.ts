@@ -8,6 +8,11 @@ try {
 export const MEALS = ["breakfast", "lunch", "dinner"] as const;
 export type Meal = (typeof MEALS)[number];
 
+export function mealAt(d: Date): Meal {
+  const h = d.getHours();
+  return h < 12 ? "breakfast" : h < 17 ? "lunch" : "dinner";
+}
+
 const digits = (s = "") => s.replace(/\D/g, "");
 
 // "breakfast=10:30,lunch=14:30" -> { breakfast: [10, 30], lunch: [14, 30] }

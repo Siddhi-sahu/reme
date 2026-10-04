@@ -6,6 +6,15 @@ import qrcode from "qrcode-terminal";
 
 const AUTH_DIR = "auth"; // login session; never commit this
 
+// libsignal (Baileys' encryption library) prints whole session objects, including
+// private keys, via console.info/warn. Reme only uses console.log/error, so mute these.
+console.info = () => {};
+const warn = console.warn;
+console.warn = (msg?: unknown, ...rest: unknown[]) => {
+  if (typeof msg === "string" && msg.startsWith("Session")) return;
+  warn(msg, ...rest);
+};
+
 export type Incoming = { from: string; text?: string; isVoice: boolean };
 
 let sock: WASocket | undefined; // replaced on every reconnect

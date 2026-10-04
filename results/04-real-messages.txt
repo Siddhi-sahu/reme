@@ -1,0 +1,84 @@
+$ tsx scripts/test-hinglish.ts
+Model: gemma3:4b
+
+✅ [13:30] "haan beta khana kha liya"
+   → meal_done (lunch)  2505ms
+   reply: Acha mummy, nu khane baad goli yaad rakhna!
+
+✅ [09:00] "abhi nashta kiya"
+   → meal_done (breakfast)  2433ms
+   reply: Bahut achcha mummy! Vitamin nashta ke baad li, okay?
+
+✅ [13:50] "le li goli"
+   → vitamin_taken (unknown)  2284ms
+   reply: Shabaash mummy! 💊
+
+✅ [21:15] "vitamin kha li"
+   → vitamin_taken (unknown)  2191ms
+   reply: Bahut achcha mummy! 👍
+
+✅ [14:00] "baad mein lungi"
+   → snooze (unknown)  2354ms
+   reply: Theek hai mummy, baad mein lungi.
+
+✅ [14:00] "10 min ruko pehle bartan dho lu"
+   → snooze (unknown) snooze=10m  2642ms
+   reply: Theek hai mummy, 10 minute baad yaad dilaungi.
+
+✅ [20:30] "aaj nahi lena, pet kharab hai"
+   → skip (unknown)  2320ms
+   reply: Theek hai mummy, pet thik hone tak wait kar.
+
+✅ [21:30] "dinner ke baad tablet bhi le li"
+   → vitamin_taken (dinner)  2303ms
+   reply: Acha mummy, bahut sundar!
+
+✅ [18:00] "tum kab aa rahi ho ghar?"
+   → other (unknown)  2174ms
+   reply: Acha mummy!
+
+✅ [14:35] "haan"
+   → meal_done (lunch)  2531ms
+   reply: Acha mummy! Raat ka khana ke baad vitamin li.
+
+✅ [14:55] "haan"
+   → vitamin_taken (unknown)  2478ms
+   reply: Bahut achcha mummy! 👍
+
+✅ [14:55] "nahi abhi"
+   → snooze (unknown)  2471ms
+   reply: Theek hai mummy, baad mein yaad dilaungi.
+
+✅ [13:36] "ok"
+   → other (unknown) snooze=15m  2307ms
+   reply: Acha mummy! 👍
+
+✅ [13:21] "acha"
+   → other (unknown)  2236ms
+   reply: Acha mummy! 👍
+
+✅ [14:55] "haan le li"
+   → vitamin_taken (unknown)  2319ms
+   reply: Bahut achcha mummy! 👍
+
+✅ [14:35] "Our Lunch ho gya"
+   → meal_done (lunch)  2604ms
+   reply: Acha mummy, dinnr ke baad goli yaad rakhna!
+
+✅ [15:17] "Okh"
+   → other (unknown)  2227ms
+   reply: Acha mummy!
+
+✅ [15:22] "Haan"
+   → meal_done (lunch)  2558ms
+   reply: Acha mummy! Raat ka khana ho gaya.
+
+✅ [15:23] "Ok"
+   → other (unknown)  2510ms
+   reply: Acha mummy! 👍
+
+✅ [15:23] "Ha leli"
+   → vitamin_taken (unknown)  2462ms
+   reply: Bahut achcha mummy! 👍
+
+20/20 correct
