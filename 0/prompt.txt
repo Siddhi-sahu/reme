@@ -1,0 +1,99 @@
+<pasted_content id="1f15">
+1. What is the command for running ollama. Did not run any ollama command, but the following worked.
+
+2. Is this safe i mean, the bot is messaging from my behalf. If i close the terminal the connection closes right, it can no longer access my chats.
+3.Also i forgot to update the name to mummy, still it message the right person, seeing the previous convo, impressive.
+
+4. Everything worked - [14:35, 10/4/2026] Mummy 💖: Our Lunch ho gya
+[14:46, 10/4/2026] Siddhi: batati hu call pr
+[15:17, 10/4/2026] Mummy 💖: Okh
+[15:20, 10/4/2026] Siddhi: Mummy, lunch ho gaya? 🍽️
+[15:22, 10/4/2026] Mummy 💖: Haan
+[15:23, 10/4/2026] Siddhi: Mummy, vitamin le lijiye 💊
+[15:23, 10/4/2026] Mummy 💖: Ok
+[15:23, 10/4/2026] Mummy 💖: Ha leli
+[15:23, 10/4/2026] Siddhi: Shabaash mummy! 💊❤️
+.
+
+I would have to keep this process running for the bot to msg mom at the 2:30 everyday? The DEBUG=1 caffeinate -i pnpm start process. 
+
+The terminal, after success:
+), reconnecting…
+✓ WhatsApp connected
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+03:20 pm → mummy: Mummy, lunch ho gaya? 🍽️
+Closing session: SessionEntry {
+  _chains: {
+    'BdwcIcyicKZw0Tyhg9Km2nP023q/et+Ltb4ISVDiW8YB': { chainKey: [Object], chainType: 2, messageKeys: {} },
+    'REDACTED/gLxD': { chainKey: [Object], chainType: 2, messageKeys: {} },
+    'BbAc/REDACTED/q89N': { chainKey: [Object], chainType: 1, messageKeys: {} }
+  },
+  registrationId: 414800570,
+  currentRatchet: {
+    ephemeralKeyPair: {
+      pubKey: <Buffer 05 b0 1c fd 06 ea 7e d1 d3 46 8f 5e 9a df 83 31 a1 a8 1a e2 38 08 74 f6 29 eb 18 33 e2 bf ab cf 4d>,
+      privKey: <Buffer c8 a6 5b d3 ca e6 9d 12 e4 2c e4 c5 05 b1 f9 f4 d7 99 1f 0e 2f f4 42 ee fb 1f 35 ba 37 e2 07 7e>
+    },
+    lastRemoteEphemeralKey: <Buffer 05 e8 0e e0 c1 71 ed d0 51 42 00 2f 26 83 cd e3 2e 98 c5 65 a0 95 10 66 0d 9b a4 d2 ce 3f 80 bc 43>,
+    previousCounter: 0,
+    rootKey: <Buffer fa 5b 02 20 b7 3c f3 e3 26 2b b2 dd 57 93 bd b9 33 c4 2c 2e 0d 67 1e e3 79 34 e9 d1 29 10 1b fc>
+  },
+  indexInfo: {
+    baseKey: <Buffer 05 36 8a fc 70 df 20 4d 21 94 7e 06 7a c1 9d b9 9c bf 4f 56 3f fb 3a 39 90 80 d0 37 2a 2d 93 90 13>,
+    baseKeyType: 2,
+    closed: -1,
+    used: 1791107453838,
+    created: 1791107425021,
+    remoteIdentityKey: <Buffer 05 d7 ea 57 60 c1 cc 01 e2 88 6e 9b fb b1 1a c7 64 70 0d ca 13 53 3f d7 ba 99 9b 6e 49 bf 67 c0 4a>
+  }
+}
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 175716188573733@lid (alt 919235352521@s.whatsapp.net) -> 919235352521
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+03:23 pm mummy: "Haan" → meal_done (unknown)
+03:23 pm → mummy: Mummy, vitamin le lijiye 💊
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 175716188573733@lid (alt 919235352521@s.whatsapp.net) -> 919235352521
+03:23 pm mummy: "Ok" → other (unknown)
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 175716188573733@lid (alt 919235352521@s.whatsapp.net) -> 919235352521
+03:23 pm mummy: "Ha leli" → vitamin_taken (unknown)
+03:23 pm → mummy: Shabaash mummy! 💊❤️
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 96044209725648@lid (alt 919430816443@s.whatsapp.net) -> 919430816443
+[debug] message in chat 96044209725648@lid (alt 919430816443@s.whatsapp.net) -> 919430816443
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+[debug] message in chat 120363427390364081@g.us (alt undefined) -> undefined
+
+5. What are the next steps, lets plan and execute them.
+</pasted_content id="1f15">
