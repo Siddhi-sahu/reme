@@ -51,6 +51,11 @@ export class Reme {
         if (!config.vitaminMeals.includes(meal)) return;
         const d = this.dose(meal);
         if (d.status === "taken") return this.send("mummy", say.alreadyTaken);
+        if (d.reminders > 0) {
+          // We already asked "lunch ho gaya?" and she said yes: she ate a while ago, remind now.
+          this.db.save({ ...d, status: "open", reminders: d.reminders + 1, next_at: this.after(config.followUpMin) });
+          return this.send("mummy", say.remind);
+        }
         this.db.save({ ...d, status: "open", reminders: 0, next_at: this.after(config.remindAfterMin) });
         return this.send("mummy", say.willRemind(config.remindAfterMin));
       }

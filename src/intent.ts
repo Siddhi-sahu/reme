@@ -29,6 +29,10 @@ Classify her message:
 - other: anything else.
 
 If both eating and taking the vitamin are mentioned, choose vitamin_taken.
+Short answers like "haan", "ho gaya", "ok", "nahi" answer YOUR LAST MESSAGE to her (given below):
+"haan" to "vitamin li?" is vitamin_taken; "haan" to "lunch ho gaya?" is meal_done; "nahi" to "vitamin li?" is snooze.
+"ok", "acha", "theek hai", "👍" that just acknowledge your message are other.
+Only choose vitamin_taken if she clearly says she took it, or says yes to you asking whether she took it.
 meal: which meal she means if you can tell from words or the current time, else "unknown". Null if not about a meal.
 reply: one short, warm, respectful sentence in the SAME language and script she used (Latin letters in, Latin letters out). Call her "mummy". No lecturing.
 
@@ -37,13 +41,15 @@ Examples:
 "5 min ruko, phone pe hu" -> {"intent":"snooze","meal":null,"snooze_minutes":5,"reply":"Theek hai mummy, 5 minute baad yaad dilaungi."}
 "le li beta" -> {"intent":"vitamin_taken","meal":null,"snooze_minutes":null,"reply":"Shabaash mummy! 💊"}`;
 
-export async function parseMessage(text: string, now = new Date()): Promise<Intent> {
+const ACK = /^(ok+|okay|k|acha+|achha+|accha+|theek hai|thik hai|ji|hmm+|👍|🙏)[.!\s]*$/i;
+
+export async function parseMessage(text: string, now = new Date(), lastSent?: string): Promise<Intent> {
   const time = now.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" });
   const res = await ollama.chat({
     model: MODEL,
     messages: [
       { role: "system", content: SYSTEM },
-      { role: "user", content: `Current time: ${time}\nMessage: ${text}` },
+      { role: "user", content: `Current time: ${time}\nYour last message to her: ${lastSent ?? "(none)"}\nHer message: ${text}` },
     ],
     format: z.toJSONSchema(Intent),
     options: { temperature: 0 },
@@ -51,5 +57,8 @@ export async function parseMessage(text: string, now = new Date()): Promise<Inte
   const parsed = Intent.parse(JSON.parse(res.message.content));
   // A delay with no other intent means "remind me later".
   if (parsed.intent === "other" && parsed.snooze_minutes) parsed.intent = "snooze";
+  // "ok" to "15 minute mein yaad dilaungi" is not "I took it". Marking it taken would
+  // silently stop the reminders, so don't trust the model here.
+  if (ACK.test(text.trim()) && !lastSent?.includes("?")) parsed.intent = "other";
   return parsed;
 }

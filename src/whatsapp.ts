@@ -17,9 +17,12 @@ export async function sendText(phone: string, text: string) {
 
 const phoneOf = (jid?: string | null) => (jid?.endsWith("@s.whatsapp.net") ? jid.split("@")[0].split(":")[0] : undefined);
 
-// WhatsApp may address a chat by a private id (@lid) and put the phone number in remoteJidAlt.
-function senderPhone(m: WAMessage) {
-  return phoneOf(m.key.remoteJid) ?? phoneOf(m.key.remoteJidAlt);
+// WhatsApp may address a chat by a private id (@lid) instead of the phone number.
+// Try the alternate id first, then ask Baileys' lid -> phone mapping.
+async function senderPhone(m: WAMessage) {
+  const direct = phoneOf(m.key.remoteJid) ?? phoneOf(m.key.remoteJidAlt);
+  if (direct || !m.key.remoteJid?.endsWith("@lid")) return direct;
+  return phoneOf(await sock?.signalRepository.lidMapping.getPNForLID(m.key.remoteJid));
 }
 
 export async function connectWhatsApp(onMessage: (m: Incoming) => void, onReady: () => void) {
@@ -49,11 +52,12 @@ export async function connectWhatsApp(onMessage: (m: Incoming) => void, onReady:
     }
   });
 
-  sock.ev.on("messages.upsert", ({ messages, type }) => {
+  sock.ev.on("messages.upsert", async ({ messages, type }) => {
     if (type !== "notify") return; // ignore old history being synced
     for (const m of messages) {
       if (m.key.fromMe) continue; // our own messages (and anything you type yourself)
-      const from = senderPhone(m);
+      const from = await senderPhone(m);
+      if (process.env.DEBUG) console.log(`[debug] message in chat ${m.key.remoteJid} (alt ${m.key.remoteJidAlt}) -> ${from}`);
       if (!from) continue; // groups, status, channels
       const msg = m.message;
       onMessage({

@@ -12,8 +12,11 @@ if (!config.mummyNumber || !config.alertNumber) {
 
 const time = () => new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
 
+let lastToMummy: string | undefined; // so Gemma knows what "haan" is answering
+
 const reme = new Reme(openStore(), async (to, text) => {
   console.log(`${time()} → ${to}: ${text}`);
+  if (to === "mummy") lastToMummy = text;
   await sendText(to === "mummy" ? config.mummyNumber : config.alertNumber, text);
 });
 
@@ -22,7 +25,7 @@ async function onMessage({ from, text, isVoice }: Incoming) {
   if (isVoice) return console.log(`${time()} mummy sent a voice note (not supported yet)`);
   if (!text) return;
   try {
-    const intent = await parseMessage(text);
+    const intent = await parseMessage(text, new Date(), lastToMummy);
     console.log(`${time()} mummy: "${text}" → ${intent.intent}${intent.meal ? ` (${intent.meal})` : ""}`);
     await reme.onMessage(intent, text);
   } catch (err) {
