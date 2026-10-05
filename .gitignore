@@ -5,3 +5,7 @@ node_modules
 # WhatsApp login session and mummy's data: never commit
 auth/
 reme.db*
+
+# writing notes
+POST_NOTES.md
+POST.md

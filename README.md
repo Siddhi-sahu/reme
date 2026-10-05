@@ -1,6 +1,6 @@
 # Reme
 
-*Remember me.* A WhatsApp nudge that reminds my mummy to take her multivitamin after lunch, in Hinglish, from my own number.
+*Remember me.* A WhatsApp nudge that reminds my mummy to take her daily multivitamin after breakfast, in Hinglish, from my own number.
 
 It understands her replies ("Haan", "Ha leli", "10 min ruko", "aaj nahi lena") with **Gemma 3 4B running locally through Ollama**, so her messages never leave my laptop.
 
@@ -16,10 +16,12 @@ It understands her replies ("Haan", "Ha leli", "10 min ruko", "aaj nahi lena") w
 
 ## How it works
 
-- **She messages first** ("lunch ho gaya"): Reme reminds her 15 minutes later.
-- **She doesn't**: at 14:30 Reme asks "lunch ho gaya?", then nudges every 20 minutes.
+- **One vitamin a day, after breakfast** (she eats around 11 to 11:30). Once it's taken, Reme goes quiet for the day.
+- **She messages first** ("nashta ho gaya"): Reme reminds her 15 minutes later.
+- **She doesn't**: at 11:45 Reme asks "nashta ho gaya?", then nudges every 20 minutes.
+- Configurable: `VITAMIN_MEALS=breakfast,lunch` makes lunch a second chance if breakfast passes with no reply.
 - **Snooze / skip** are understood ("baad mein", "10 min ruko", "aaj nahi").
-- **After 3 nudges with no reply** it stops nagging her and messages me instead: *"Ek call kar lo?"*
+- **After 3 unanswered nudges**, it stops nagging her and messages me instead: *"Ek call kar lo?"*
 - **Small talk is ignored.** Reme only speaks up about the vitamin; everything else is between her and me.
 
 Gemma's job is narrow: turn her message into an intent (`meal_done`, `vitamin_taken`, `snooze`, `skip`, `other`). Plain code decides what to do, and every message she receives is written by hand in [`src/messages.ts`](src/messages.ts). Gemma also sees Reme's last message, so a bare "haan" means the right thing.
@@ -48,11 +50,11 @@ Keep it running (and Ollama open) through the check-in time. `DEBUG=1` logs whic
 ## Tests
 
 ```bash
-pnpm test:hinglish   # 20 messages, incl. mummy's real ones, through Gemma
-pnpm simulate        # three whole lunches with a fake clock, no WhatsApp
+pnpm test:hinglish   # 28 messages, incl. mummy's real ones, through Gemma
+pnpm simulate        # five whole mornings with a fake clock, no WhatsApp
 ```
 
-How accuracy changed as the prompt and guards improved is in [`results/`](results/): 8/9 → 9/9 → 15/15 (with conversation context) → 20/20 (with her real messages).
+How accuracy changed as the prompt and guards improved is in [`results/`](results/): 8/9 → 9/9 → 15/15 (with conversation context) → 20/20 → 28/28 (with her real messages).
 
 ## Privacy and caveats
 

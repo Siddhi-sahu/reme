@@ -1,5 +1,6 @@
 // The decision-making. Gemma tells us *what she said*; this decides *what to do*.
 // No WhatsApp or Ollama here, so it can be tested with a fake clock (scripts/simulate.ts).
+// One vitamin a day, after whichever of config.vitaminMeals comes first.
 import { config, mealAt, MEALS, type Meal } from "./config.ts";
 import type { Dose, Store } from "./db.ts";
 import type { Intent } from "./intent.ts";
@@ -41,11 +42,13 @@ export class Reme {
   async onMessage(i: Intent, text: string) {
     switch (i.intent) {
       case "meal_done": {
-        const meal = i.meal && i.meal !== "unknown" ? i.meal : mealAt(this.now());
+        // No meal word: she's answering the question Reme asked ("nashta ho gaya?" at 11:45,
+        // "haan" at 12:05 is still breakfast). Otherwise go by the clock.
+        const meal = i.meal && i.meal !== "unknown" ? i.meal : (this.db.open(dateKey(this.now()))[0]?.meal ?? mealAt(this.now()));
         this.db.log("meal_done", meal, text);
         if (!config.vitaminMeals.includes(meal)) return;
+        if (this.db.settled(dateKey(this.now()))) return this.send("mummy", say.alreadyTaken);
         const d = this.dose(meal);
-        if (d.status === "taken") return this.send("mummy", say.alreadyTaken);
         if (d.reminders > 0) {
           // We already asked "lunch ho gaya?" and she said yes: she ate a while ago, remind now.
           this.db.save({ ...d, status: "open", reminders: d.reminders + 1, next_at: this.after(config.followUpMin) });
@@ -56,7 +59,8 @@ export class Reme {
       }
       case "vitamin_taken": {
         const d = this.current();
-        this.db.save({ ...d, status: "taken", next_at: null });
+        // That's today's one dose: close any other open reminder too.
+        for (const o of [d, ...this.db.open(d.date)]) this.db.save({ ...o, status: "taken", next_at: null });
         this.db.log("taken", d.meal, text);
         return this.send("mummy", say.taken);
       }
@@ -89,7 +93,9 @@ export class Reme {
       if (d.reminders >= config.maxReminders) {
         this.db.save({ ...d, status: "missed", next_at: null });
         this.db.log("missed", d.meal);
-        await this.send("alert", say.alertMissed(d.meal, d.reminders));
+        // Missed breakfast but lunch is still to come: that's her second chance, don't alarm you yet.
+        const laterChance = config.vitaminMeals.some((m) => MEALS.indexOf(m) > MEALS.indexOf(d.meal) && config.checkIns[m]);
+        if (!laterChance) await this.send("alert", say.alertMissed(d.meal, d.reminders));
         continue;
       }
       this.db.save({ ...d, reminders: d.reminders + 1, next_at: this.after(config.followUpMin) });
@@ -104,7 +110,8 @@ export class Reme {
       at.setHours(hm[0], hm[1], 0, 0);
       const since = now.getTime() - at.getTime();
       if (since < 0 || since > CHECK_IN_WINDOW) continue;
-      if (this.db.get(dateKey(now), meal)) continue; // she already told us something
+      if (this.db.settled(dateKey(now))) break; // already taken (or skipped) today
+      if (this.db.get(dateKey(now), meal)) continue; // she already told us something about this meal
       this.db.save({ date: dateKey(now), meal, status: "open", reminders: 1, next_at: this.after(config.followUpMin) });
       this.db.log("check_in", meal);
       await this.send("mummy", say.checkIn(meal));

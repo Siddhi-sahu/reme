@@ -2,7 +2,7 @@
 // Checks whether Gemma understands the kind of messages mummy actually sends.
 import { parseMessage, MODEL } from "../src/intent.ts";
 
-const cases: { text: string; at: string; expect: string; last?: string }[] = [
+const cases: { text: string; at: string; expect: string | string[]; last?: string }[] = [
   { text: "haan beta khana kha liya", at: "13:30", expect: "meal_done" },
   { text: "abhi nashta kiya", at: "09:00", expect: "meal_done" },
   { text: "le li goli", at: "13:50", expect: "vitamin_taken" },
@@ -25,6 +25,16 @@ const cases: { text: string; at: string; expect: string; last?: string }[] = [
   { text: "Haan", at: "15:22", expect: "meal_done", last: "Mummy, lunch ho gaya? 🍽️" },
   { text: "Ok", at: "15:23", expect: "other", last: "Mummy, vitamin le lijiye 💊" },
   { text: "Ha leli", at: "15:23", expect: "vitamin_taken", last: "Mummy, vitamin le lijiye 💊" },
+  // her replies to my own questions, 3-4 Oct (before Reme existed)
+  { text: "Han krungi thodi der mein", at: "20:21", expect: "snooze", last: "mummy khana done?" },
+  { text: "Haa beta ho gya just abhi", at: "14:13", expect: "meal_done", last: "Mummy, lunch ho gaya? 🍽️" }, // I asked "done?"; Reme always names the meal
+  { text: "Ha le liya", at: "21:13", expect: "vitamin_taken", last: "Vitamins le liye?" },
+  { text: "Han Krli thi aur vitamins bhi leliye", at: "12:06", expect: "vitamin_taken", last: "mummy breakfast ho gya?" },
+  { text: "Nhi beta bhar hu, lunch bahar hi krlungi", at: "14:31", expect: ["snooze", "skip"], last: "lunch hogya mummy?" },
+  { text: "yes", at: "14:32", expect: "skip", last: "so skipping goli aaj?" },
+  { text: "Ab ghar kab aaho gyi ?", at: "14:35", expect: "other" },
+  { text: "Holidays mai ?", at: "14:35", expect: "other" },
+  { text: "lelungi baad mein", at: "09:34", expect: "snooze", last: "Mummy, vitamin le lijiye 💊" }, // her classic
 ];
 
 let pass = 0;
@@ -35,7 +45,7 @@ for (const c of cases) {
   now.setUTCHours(h - 5, m - 30); // IST -> UTC
   const t0 = Date.now();
   const r = await parseMessage(c.text, now, c.last);
-  const ok = r.intent === c.expect;
+  const ok = [c.expect].flat().includes(r.intent);
   if (ok) pass++;
   console.log(
     `${ok ? "✅" : "❌"} [${c.at}] "${c.text}"\n   → ${r.intent}` +

@@ -1,6 +1,6 @@
 import ollama from "ollama";
 import { z } from "zod";
-import { mealAt, type Meal } from "./config.ts";
+import type { Meal } from "./config.ts";
 
 export const MODEL = process.env.OLLAMA_MODEL ?? "gemma3:4b";
 
@@ -42,12 +42,17 @@ Examples:
 "5 min ruko, phone pe hu" -> {"intent":"snooze","meal":null,"snooze_minutes":5,"reply":"Theek hai mummy, 5 minute baad yaad dilaungi."}
 "le li beta" -> {"intent":"vitamin_taken","meal":null,"snooze_minutes":null,"reply":"Shabaash mummy! 💊"}`;
 
-// Which meal: the word she used, else the clock. Gemma once called "Our Lunch ho gya" at 2:35pm dinner.
+// Which meal: only the word she used ("unknown" otherwise; reme.ts decides). Gemma once called
+// "Our Lunch ho gya" at 2:35pm dinner, so the model doesn't get to guess.
 const MEAL_WORDS: [RegExp, Meal][] = [
   [/nasht|breakfast/i, "breakfast"],
   [/lunch|dopahar/i, "lunch"],
   [/dinner|raat/i, "dinner"],
 ];
+
+// Future tense ("krungi", "lungi", "khaungi"): it hasn't happened yet. Prompting for this
+// made a 4B model call plain "haan" a snooze, so it's a code rule instead.
+const FUTURE = /\w(ungi|oongi)\b/i;
 
 const ACK = /^(ok+h?|okay|k|acha+|achha+|accha+|theek hai|thik hai|ji|hmm+|👍|🙏)[.!\s]*$/i;
 
@@ -63,7 +68,8 @@ export async function parseMessage(text: string, now = new Date(), lastSent?: st
     options: { temperature: 0 },
   });
   const parsed = Intent.parse(JSON.parse(res.message.content));
-  if (parsed.intent === "meal_done") parsed.meal = MEAL_WORDS.find(([re]) => re.test(text))?.[1] ?? mealAt(now);
+  if ((parsed.intent === "meal_done" || parsed.intent === "vitamin_taken") && FUTURE.test(text)) parsed.intent = "snooze";
+  if (parsed.intent === "meal_done") parsed.meal = MEAL_WORDS.find(([re]) => re.test(text))?.[1] ?? "unknown";
   // A delay with no other intent means "remind me later".
   if (parsed.intent === "other" && parsed.snooze_minutes) parsed.intent = "snooze";
   // "ok" to "15 minute mein yaad dilaungi" is not "I took it". Marking it taken would

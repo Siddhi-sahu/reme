@@ -10,7 +10,7 @@ export type Meal = (typeof MEALS)[number];
 
 export function mealAt(d: Date): Meal {
   const h = d.getHours();
-  return h < 12 ? "breakfast" : h < 17 ? "lunch" : "dinner";
+  return h < 13 ? "breakfast" : h < 17 ? "lunch" : "dinner"; // mummy has breakfast at 11-11:30
 }
 
 const digits = (s = "") => s.replace(/\D/g, "");
@@ -32,11 +32,11 @@ export const config = {
   mummyNumber: digits(env.MUMMY_NUMBER),
   alertNumber: digits(env.ALERT_NUMBER), // you: gets told when a dose is missed or skipped
 
-  // Which meals she takes the vitamin after
-  vitaminMeals: (env.VITAMIN_MEALS ?? "lunch").split(",").map((m) => m.trim()) as Meal[],
+  // Once a day, after whichever of these meals comes first (mummy: breakfast only)
+  vitaminMeals: (env.VITAMIN_MEALS ?? "breakfast").split(",").map((m) => m.trim()) as Meal[],
 
   // If she hasn't said anything by this time, ask her
-  checkIns: parseCheckIns(env.CHECKINS ?? "breakfast=10:30,lunch=14:30,dinner=21:30"),
+  checkIns: parseCheckIns(env.CHECKINS ?? "breakfast=11:45,lunch=14:30"),
 
   remindAfterMin: Number(env.REMIND_AFTER_MIN ?? 15), // after she says she has eaten
   followUpMin: Number(env.FOLLOW_UP_MIN ?? 20), // gap between nudges

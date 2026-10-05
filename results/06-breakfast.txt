@@ -1,0 +1,120 @@
+$ tsx scripts/test-hinglish.ts
+Model: gemma3:4b
+
+✅ [13:30] "haan beta khana kha liya"
+   → meal_done (unknown)  2722ms
+   reply: Acha mummy, nu khane baad goli yaad rakhna!
+
+✅ [09:00] "abhi nashta kiya"
+   → meal_done (breakfast)  2840ms
+   reply: Bahut achcha mummy! Vitamin nashta ke baad li, okay?
+
+✅ [13:50] "le li goli"
+   → vitamin_taken (unknown)  2540ms
+   reply: Shabaash mummy! 💊
+
+✅ [21:15] "vitamin kha li"
+   → vitamin_taken (unknown)  2441ms
+   reply: Bahut achcha mummy! 👍
+
+✅ [14:00] "baad mein lungi"
+   → snooze (unknown)  2529ms
+   reply: Theek hai mummy, baad mein lungi.
+
+✅ [14:00] "10 min ruko pehle bartan dho lu"
+   → snooze (unknown) snooze=10m  2883ms
+   reply: Theek hai mummy, 10 minute baad yaad dilaungi.
+
+✅ [20:30] "aaj nahi lena, pet kharab hai"
+   → skip (unknown)  2488ms
+   reply: Theek hai mummy, pet thik hone tak wait kar.
+
+✅ [21:30] "dinner ke baad tablet bhi le li"
+   → vitamin_taken (dinner)  2589ms
+   reply: Acha mummy, bahut sundar!
+
+✅ [18:00] "tum kab aa rahi ho ghar?"
+   → other (unknown)  2243ms
+   reply: Acha mummy!
+
+✅ [14:35] "haan"
+   → meal_done (unknown)  2645ms
+   reply: Acha mummy! Raat ka khana ke baad vitamin li.
+
+✅ [14:55] "haan"
+   → vitamin_taken (unknown)  2538ms
+   reply: Bahut achcha mummy! 👍
+
+✅ [14:55] "nahi abhi"
+   → snooze (unknown)  2546ms
+   reply: Theek hai mummy, baad mein yaad dilaungi.
+
+✅ [13:36] "ok"
+   → other (unknown) snooze=15m  2359ms
+   reply: Acha mummy! 👍
+
+✅ [13:21] "acha"
+   → other (unknown)  2280ms
+   reply: Acha mummy! 👍
+
+✅ [14:55] "haan le li"
+   → vitamin_taken (unknown)  2465ms
+   reply: Bahut achcha mummy! 👍
+
+✅ [14:35] "Our Lunch ho gya"
+   → meal_done (lunch)  2668ms
+   reply: Acha mummy, dinnr ke baad goli yaad rakhna!
+
+✅ [15:17] "Okh"
+   → other (unknown)  2289ms
+   reply: Acha mummy!
+
+✅ [15:22] "Haan"
+   → meal_done (unknown)  2532ms
+   reply: Acha mummy! Raat ka khana ho gaya.
+
+✅ [15:23] "Ok"
+   → other (unknown)  2409ms
+   reply: Acha mummy! 👍
+
+✅ [15:23] "Ha leli"
+   → vitamin_taken (unknown)  2453ms
+   reply: Bahut achcha mummy! 👍
+
+✅ [20:21] "Han krungi thodi der mein"
+   → snooze (dinner)  2477ms
+   reply: Acha mummy! 💊
+
+✅ [14:13] "Haa beta ho gya just abhi"
+   → meal_done (unknown)  2895ms
+   reply: Acha mummy! Vitamin raat ko yaad dilaungi.
+
+✅ [21:13] "Ha le liya"
+   → vitamin_taken (unknown)  2621ms
+   reply: Bahut achcha mummy! 👍
+
+✅ [12:06] "Han Krli thi aur vitamins bhi leliye"
+   → vitamin_taken (breakfast)  2756ms
+   reply: Bahut achcha mummy! 👍
+
+✅ [14:31] "Nhi beta bhar hu, lunch bahar hi krlungi"
+   → skip (unknown)  2785ms
+   reply: Theek hai mummy!
+
+✅ [14:32] "yes"
+   → skip (unknown)  2781ms
+   reply: Theek hai mummy.
+
+✅ [14:35] "Ab ghar kab aaho gyi ?"
+   → other (unknown)  2872ms
+   reply: Acha mummy!
+
+✅ [14:35] "Holidays mai ?"
+   → other (unknown)  3462ms
+   reply: Acha mummy, holiday mein ho toh thoda rest karo!
+
+✅ [09:34] "lelungi baad mein"
+   → snooze (unknown)  4024ms
+   reply: Theek hai mummy, baad mein yaad dilaungi.
+
+29/29 correct

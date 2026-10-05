@@ -36,6 +36,7 @@ export function openStore(path = "reme.db") {
     ON CONFLICT (date, meal) DO UPDATE SET status = excluded.status, reminders = excluded.reminders, next_at = excluded.next_at
   `);
   const openStmt = db.prepare("SELECT * FROM doses WHERE date = ? AND status = 'open'");
+  const settledStmt = db.prepare("SELECT 1 FROM doses WHERE date = ? AND status IN ('taken', 'skipped') LIMIT 1");
   const dueStmt = db.prepare("SELECT * FROM doses WHERE status = 'open' AND next_at <= ?");
   const logStmt = db.prepare("INSERT INTO log (event, meal, detail) VALUES (?, ?, ?)");
 
@@ -43,6 +44,8 @@ export function openStore(path = "reme.db") {
     get: (date: string, meal: Meal) => getStmt.get(date, meal) as Dose | undefined,
     save: (d: Dose) => void saveStmt.run(d.date, d.meal, d.status, d.reminders, d.next_at),
     open: (date: string) => openStmt.all(date) as Dose[],
+    // once a day: has today's vitamin been taken or deliberately skipped?
+    settled: (date: string) => !!settledStmt.get(date),
     due: (nowMs: number) => dueStmt.all(nowMs) as Dose[],
     log: (event: string, meal: Meal | null = null, detail: string | null = null) => void logStmt.run(event, meal, detail),
   };
