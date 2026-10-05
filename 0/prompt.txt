@@ -1,0 +1,458 @@
+i am adding devrelay, to save the agent session. dont know how that would work. 
+
+<pasted_content id="1f15">
+DevRelay
+What it does
+Demo
+Hacktoberfest
+Partners
+Install
+Major League Hacking
+×
+DEV
+DEV and MLH,
+inside your coding agent
+DevRelay is an MCP server and skill pack for your coding agent. Enter hackathons, publish your work, find community wisdom, and claim free sponsor credits without leaving your session.
+
+macOS & Linux
+Windows
+curl -fsSL https://devrelay.com/install.sh | sh
+
+Installs the gateway, connects the agents it finds, and adds the skills.
+Beta · New skills ship often and update automatically.
+WORKS WITH
+
+Antigravity
+Claude Code
+OpenAI Codex
+Cursor
+OpenCode
+& more
+01
+WHAT IT DOES
+What your agent can do with DevRelay
+Ask for it, or let your agent bring it up when it fits the work. It checks with you before it registers, claims, or publishes anything.
+How it works
+
+DevRelay is a local MCP server plus a set of skills. The server talks to DEV and MLH for your agent, and the skills tell your agent when to use it. One install sets up every supported agent on your machine, and both keep themselves up to date.
+>_ your agent
+
+DevRelay
+DEV
+posts, search, challenges
+MLH
+events, offers, submissions
+Enter hackathons
+Register for MLH events, submit your project, and enter prize challenges.
+Use sponsor perks
+Claim credits and install sponsors' Agent Skills at MLH events you've joined.
+Publish to DEV
+Turn what you just shipped into a DEV draft or a DEV Challenge entry.
+Get real answers
+Search DEV for posts and postmortems from developers who hit the same problem.
+Never miss an event
+Current dates and rules for Hacktoberfest, DEV Challenges, and Global Hack Week.
+Share the session
+Save an agent transcript to DEV and embed it in a post.
+Submit your hackathon project from your repo
+Your agent writes up the project from your code, submits it to your MLH event, and enters it in the prize challenges that fit.
+Agent Session • Hackathon Submission
+You
+We're done. Submit this to Summit Hacks and enter it in any sponsor challenges it fits.
+⚡
+devrelay.submit_project_to_event({ project_id: "…", event_id: "…" })
+⚡
+devrelay.enter_challenge({ challenge_id: "…" })
+Your agent
+via DevRelay
+Submitted Pantry Pal to Summit Hacks 2026 and entered it in Best Use of MongoDB Atlas and Best Use of Gemini API. Want a DEV post about the build too?
+🏆
+MLH submission
+Submitted
+✓
+Project written up from the repo
+Pantry Pal
+✓
+Submitted to event
+Summit Hacks 2026
+✓
+Best Use of MongoDB Atlas
+entered
+✓
+Best Use of Gemini API
+entered
+Submitted
+events.mlh.com/events/summit-hacks-2026
+View on MLH ↗
+Claim credits for the stack you're about to spin up
+Building at an MLH event? When you reach for hosting, a database, or an AI API, your agent checks what the event's sponsors are offering and asks before it claims anything.
+Agent Session • New Project Setup
+You
+Add Postgres to this Next.js app and deploy it. It's for this weekend's hackathon, so keep it cheap.
+⚡
+devrelay.list_event_offers({ event_id: "…" })
+Your agent
+via DevRelay
+Neon is offering 3 months of Neon Pro at your hackathon. Want me to claim it? Then I'll put DATABASE_URL in .env and start on the schema.
+🎟️
+Sponsor offer
+Eligible
+Neon
+Serverless Postgres
+Pro tier, 3 months free
+Summit Hacks 2026 sponsor
+•
+New accounts only
+Promo
+NEONDEVPRO
+claimed
+✓
+Claimed with your OK
+1 per person
+✓
+Redeem at
+neon.tech/redeem
+Next: create the database and deploy
+Publish what you just built
+When a feature ships or a tricky bug finally makes sense, your agent offers to write it up as a DEV draft, with code and tags from the diff.
+Agent Session • Post Drafting
+You
+We just moved our caching layer to Redis Streams. Draft a DEV post about it with before/after snippets.
+⚡
+devrelay.create_article({ title: "Resilient Caching…", published: false })
+Your agent
+via DevRelay
+Saved a DEV draft with before/after code, tagged #redis #typescript #performance. It's marked as AI-assisted and stays private until you publish.
+✍️
+DEV draft
+Saved to drafts
+Building Resilient Caching with Redis Streams in Node.js
+5 min read
+#redis
+#typescript
+#performance
+#webdev
+async function consumeStream(streamKey: string) {
+  // Wait up to 5s for new entries
+  const entries = await redis.xread('BLOCK', 5000, 'STREAMS', streamKey, '$');
+  return processBatch(entries);
+}
+Draft #89210
+Preview on DEV ↗
+Know what's on across MLH and DEV this month
+Hacktoberfest, Global Hack Week, DEV Challenges: your agent checks current dates and rules instead of guessing from its training data.
+Agent Session • Community Radar
+You
+Anything going on in the community this month I should be building for?
+⚡
+devrelay.get_challenges()
+⚡
+devrelay.get_events()
+Your agent
+via DevRelay
+Hacktoberfest starts Oct 1, and this year it's about open-source AI. Weekly DEV challenges and Global Hack Week each earn stickers, and three gets you a real pack. The launch weekend challenge fits this project. Want the rules?
+📡
+Upcoming events
+This month
+Hacktoberfest 2026
+Starts Oct 1
+MLH × DEV
+•
+Collect 3 stickers, get a real pack
+DEV Launch Weekend Challenge
+New each week
+DEV • 1 sticker
+•
+Build with open-weight models
+Global Hack Week: Hacktoberfest
+In October
+MLH • Online
+•
+Livestreams, daily challenges, stickers
+From DEV Challenges and MLH events
+Debug with answers from people who hit the same wall
+Before it guesses at a fast-moving framework, your agent searches DEV write-ups and postmortems, applies what worked, and cites its sources.
+Agent Session • Community Debugging
+You
+SQLx keeps running out of pool connections under load. Has anyone on DEV solved this?
+⚡
+devrelay.search_dev_to_semantic({ query: "sqlx pool timeout" })
+Your agent
+via DevRelay
+Three DEV postmortems point to the same fix: cap the pool at about twice your core count and set an acquire timeout. Applying it now.
+🌐
+Community answers
+3 sources
+DEV post
+dev.to/alex_dev/rust-sqlx-bottlenecks
+"Setting max_connections higher than (CPU cores * 2) causes severe context-switching latency. Clamp connection lifetime and set explicit acquire timeouts."
+  let pool = PgPoolOptions::new()
+-     .max_connections(100)
++     .max_connections(num_cpus::get() * 2)
++     .acquire_timeout(Duration::from_secs(3))
+      .connect(&url).await?;
+✓ Fix applied locally
+Read the post ↗
+02
+UNDER THE HOOD
+The calls behind the answers
+Sample requests your agent sends to DevRelay over MCP, and what comes back.
+PICK A TOOL
+
+get_challenges
+Open DEV Challenges
+
+get_mlh_event
+An MLH event and its prize challenges
+
+search_dev_to_semantic
+Search DEV posts by meaning
+
+list_event_offers
+Sponsor offers at your MLH event
+Plain JSON-RPC over stdio. Any MCP-capable agent can call these.
+devrelay-gateway
+$ initializing stdio channel...
+$ calling tool get_challenges with args: {"page":1,"per_page":5}
+◀ [JSON-RPC REQUEST]
+{
+  "jsonrpc": "2.0",
+  "id": 10,
+  "method": "tools/call",
+  "params": {
+    "name": "get_challenges",
+    "arguments": {
+      "page": 1,
+      "per_page": 5
+    }
+  }
+}
+03
+INSTALL
+Get started in a minute
+One command sets up every supported agent on your machine.
+1
+Run the installer
+</pasted_content id="1f15">
+
+ 2. So i would have to deploy the project for it to just send the atutomated replies? Because keeping the process open at the exact same time is counter productive, ill just msg myself if i have to remember that, wouldnt it be better, if i just dont have to think about the messages at all or keeping the process alive on mac always, or at 2:30.
+3. 
+
+<pasted_content id="1f15">
+Maybe just keep adding my mother’s different responses day by day, can train the model?    
+
+Some of my conversations with her, i dont have alot because i delete messages. [19:15, 10/2/2026] Siddhi: Ok
+[20:14, 10/3/2026] Siddhi: mummy khana done?
+[20:21, 10/3/2026] Mummy 💖: Han krungi thodi der mein
+[21:12, 10/3/2026] Siddhi: done?
+[21:13, 10/3/2026] Mummy 💖: Haa beta ho gya just abhi
+[21:13, 10/3/2026] Siddhi: Vitamins le liye?
+[21:13, 10/3/2026] Mummy 💖: Ha le liya
+[21:14, 10/3/2026] Siddhi: Ok good 😊
+[10:04, 10/4/2026] Siddhi: mummy breakfast ho gya?
+[12:06, 10/4/2026] Mummy 💖: Han Krli thi aur vitamins bhi leliye
+[12:07, 10/4/2026] Siddhi: Nice 🥰
+[14:29, 10/4/2026] Siddhi: lunch hogya mummy?
+[14:31, 10/4/2026] Mummy 💖: Nhi beta bhar hu, lunch bahar hi krlungi
+[14:31, 10/4/2026] Siddhi: so skipping goli aaj?
+[14:32, 10/4/2026] Mummy 💖: yes
+[14:32, 10/4/2026] Siddhi: ok, Dhyan rakho
+[14:35, 10/4/2026] Mummy 💖: Ab ghar kab aaho gyi ?
+[14:35, 10/4/2026] Mummy 💖: Holidays mai ?
+[14:35, 10/4/2026] Mummy 💖: Our Lunch ho gya
+[14:46, 10/4/2026] Siddhi: batati hu call pr
+</pasted_content id="1f15">
+
+ ;  i delete msgs so dont have a lot of them. 4.  i think i will write the post by myself that would be better, just the technical details, and help with tips for the questions asked, if u could ,
+
+<pasted_content id="1f15">
+*This is a submission for the [Hacktoberfest Weekend Challenge: Build for a Friend](https://dev.to/challenges/hacktoberfest-weekend-2026-10-01)*
+
+## What I Built
+<!-- What does it do, and who is the friend or loved one you built it for?  What problem does it solve for them? -->
+
+## Demo
+<!-- Share a deployed link or a video demo. -->
+
+## Code
+<!-- Show us the code!  You can embed a GitHub repo directly into your post. -->
+
+## How I Built It
+<!-- Which open-source AI did you use (open-weight models, agent harnesses, frameworks, local inference), and how is your project built around it? -->
+
+## Why Does Open Innovation Matter?
+<!-- Why does open innovation matter for what you built?  What did it make possible that a closed API wouldn't? -->
+
+## My Agent Session
+<!-- Optional, but judges love it.  Save your session with DevRelay and embed it with the agent_session tag (see the challenge page), or link to it. -->
+
+## Prize Categories
+<!-- Which partner categories are you entering?  List every one that applies, or remove this section. -->
+
+<!-- Team Submissions: Please pick one member to publish the submission and credit teammates by listing their DEV usernames directly in the body of the post. -->
+
+<!-- Thanks for participating! -->
+—-
+
+</pasted_content id="1f15">
+
+ . 5. and devrelay is installed i guess i would have to restart this session for that to work, and how am going to save that session and embed im not sure. 
+
+<pasted_content id="1f15">
+% curl -fsSL https://devrelay.com/install.sh | sh
+
+=== DevRelay Agentic Gateway Installer ===
+
+✓ Platform: macos-aarch64
+→ Installing binary to /Users/himani/.devrelay/bin/dev_mlh_mcp_server
+  ✓ Downloaded release binary
+  devrelay 0.1.17
+- Finish setup with:  devrelay login  (opens your browser for the Core sign-in)
+
+→ Configuring AI coding hosts...
+  ✓ Claude Code (/Users/himani/.claude.json)
+  - Claude Desktop: not detected
+  - Cursor: not detected
+  - Windsurf: not detected
+  - Continue: not detected
+  - VS Code (Cline): not detected
+  - VS Code (Roo Code): not detected
+  ✓ Antigravity (/Users/himani/.gemini/config/mcp_config.json)
+  - OpenCode: not detected
+  ✓ Codex (/Users/himani/.codex/config.toml)
+  - Goose AI: not detected
+  - Zed: not detected
+
+→ Installing agent skills...
+  created      /Users/himani/.claude/skills/devrelay-challenges/SKILL.md
+  created      /Users/himani/.claude/skills/devrelay-community-wisdom/SKILL.md
+  created      /Users/himani/.claude/skills/devrelay-knowledge/SKILL.md
+  created      /Users/himani/.claude/skills/devrelay-mlh-submissions/SKILL.md
+  created      /Users/himani/.claude/skills/devrelay-navigator/SKILL.md
+  created      /Users/himani/.claude/skills/devrelay-offers/SKILL.md
+  created      /Users/himani/.claude/skills/devrelay-publishing/SKILL.md
+  created      /Users/himani/.claude/skills/devrelay-sessions/SKILL.md
+  created      /Users/himani/.claude/skills/devrelay-sponsor-skills/SKILL.md
+  created      /Users/himani/.agents/skills/devrelay-challenges/SKILL.md
+  created      /Users/himani/.agents/skills/devrelay-community-wisdom/SKILL.md
+  created      /Users/himani/.agents/skills/devrelay-knowledge/SKILL.md
+  created      /Users/himani/.agents/skills/devrelay-mlh-submissions/SKILL.md
+  created      /Users/himani/.agents/skills/devrelay-navigator/SKILL.md
+  created      /Users/himani/.agents/skills/devrelay-offers/SKILL.md
+  created      /Users/himani/.agents/skills/devrelay-publishing/SKILL.md
+  created      /Users/himani/.agents/skills/devrelay-sessions/SKILL.md
+  created      /Users/himani/.agents/skills/devrelay-sponsor-skills/SKILL.md
+  created      /Users/himani/.gemini/config/skills/devrelay-challenges/SKILL.md
+  created      /Users/himani/.gemini/config/skills/devrelay-community-wisdom/SKILL.md
+  created      /Users/himani/.gemini/config/skills/devrelay-knowledge/SKILL.md
+  created      /Users/himani/.gemini/config/skills/devrelay-mlh-submissions/SKILL.md
+  created      /Users/himani/.gemini/config/skills/devrelay-navigator/SKILL.md
+  created      /Users/himani/.gemini/config/skills/devrelay-offers/SKILL.md
+  created      /Users/himani/.gemini/config/skills/devrelay-publishing/SKILL.md
+  created      /Users/himani/.gemini/config/skills/devrelay-sessions/SKILL.md
+  created      /Users/himani/.gemini/config/skills/devrelay-sponsor-skills/SKILL.md
+
+→ Scheduling background updates...
+  ✓ Scheduled daily update check (launchd: com.devrelay.updater)
+✓ Added /Users/himani/.devrelay/bin to PATH in /Users/himani/.zshrc
+
+🎉 DevRelay is installed.
+
+devrelay 0.1.17
+  binary       /Users/himani/.devrelay/bin/dev_mlh_mcp_server
+  platform     macos-aarch64
+  DEV account  not connected. Run `devrelay login`
+  MLH account  disconnected — run `devrelay login`
+  MLH token    not set — MLH tools need an explicit access_token argument
+  telemetry    basic
+  skills
+    ✓ 9 installed in /Users/himani/.claude/skills
+    ✓ 9 installed in /Users/himani/.agents/skills
+    ✓ 9 installed in /Users/himani/.gemini/config/skills
+  auto-update
+    ✓ scheduled (launchd: /Users/himani/Library/LaunchAgents/com.devrelay.updater.plist)
+    ✗ no update check has ever completed
+      run `devrelay --check-update`
+  clients
+    ✓ Claude Code
+    ✓ Antigravity
+    ✓ Codex
+
+3 issue(s) found.
+
+Restart your AI host so it picks up the new MCP server.
+
+himani@himanis-MacBook-Air ~ % 
+</pasted_content id="1f15">
+
+---
+
+<pasted_content id="1f15">
+ yes once a day, after breakfast or lunch, 2. since the judges would probably understand english, should we add Add english
+  in brackets for conversations? For hacktoberfest judges? 3. Since the submission is at 12.
+  I will add a breakfast one, since theres a requirement to record a video session. To submit ig.
+
+</pasted_content id="1f15">
+
+ . done how do i continue with devrelay, it rcords the agents session, right, but im not really sure how it works 
+
+<pasted_content id="1f15">
+t % devrelay login.
+Not connected. Run devrelay --login first.
+himani@himanis-MacBook-Air dawai-dost % devrelay --login
+Waiting for authorization in your browser. If it did not open, visit:
+https://www.mlh.com/oauth/authorize?response_type=code&client_id=devrelay-native&redirect_uri=http%3A%2F%2Flocalhost%3A8765%2Fcallback&scope=public+offline_access+user%3Aread%3Aprofile+user%3Aread%3Aeducation+user%3Aread%3Aemployment+dev%3Aread%3Aall+dev%3Awrite%3Aall+participant%3Aread%3Aevent+participant%3Aread%3Apromo_code+participant%3Awrite%3Apromo_code+participant%3Aread%3Aproject+participant%3Awrite%3Aproject+participant%3Awrite%3Aparticipation&REDACTED&REDACTED&code_challenge_method=S256
+If the browser cannot reach the callback, paste the full callback URL here and press Enter:
+Connected: Himani Sahu (MLH user 0198cd75-f338-f90b-7f9f-6b02df7d45d4)
+himani@himanis-MacBook-Air dawai-dost % 
+
+
+
+</pasted_content id="1f15">
+
+---
+
+<pasted_content id="1f15">
+Idk how to get the agent session link from devreplay, what site and where.
+lets just move it to breakfast, since i can test it, tomorrow moring, and its recommendd to be taken after
+  breakfast only. she has her breakfast around 9am.
+Yes upload it.
+
+Im kinda lost on how to write these, you write it, i will later edit it.
+
+*This is a submission for the [Hacktoberfest Weekend Challenge: Build for a Friend](https://dev.to/challenges/hacktoberfest-weekend-2026-10-01)*
+
+## What I Built
+<!-- What does it do, and who is the friend or loved one you built it for?  What problem does it solve for them? →
+
+Hello, I Built my submission for my mom, when i read the prompt on hacktoberfest site, about building something for a loved one, i could only think of how my mother do not eat or take her multivitamins on time. My mother runs a business, and she is always busy, and i sometimes cannot always remind her. The same old replies from her, “lelungi baad mein(i will take it later)” really annoyed me tbh(sometimes).  
+
+## Demo
+<!-- Share a deployed link or a video demo. -->
+
+## Code
+<!-- Show us the code!  You can embed a GitHub repo directly into your post. →
+https://github.com/Siddhi-sahu/reme
+
+## How I Built It
+<!-- Which open-source AI did you use (open-weight models, agent harnesses, frameworks, local inference), and how is your project built around it? →
+I used gemma. It process the conversation b and gemma gets the intent and replies with a predefined set of choices?
+
+## Why Does Open Innovation Matter?
+<!-- Why does open innovation matter for what you built?  What did it make possible that a closed API wouldn't? -->
+
+## My Agent Session
+<!-- Optional, but judges love it.  Save your session with DevRelay and embed it with the agent_session tag (see the challenge page), or link to it. -->
+
+## Prize Categories
+<!-- Which partner categories are you entering?  List every one that applies, or remove this section. -->
+
+<!-- Team Submissions: Please pick one member to publish the submission and credit teammates by listing their DEV usernames directly in the body of the post. -->
+
+<!-- Thanks for participating! -->
+—-
+</pasted_content id="1f15">
+
+---
+
+actually i asked my mom, and she eat breakfast around 11 to 11:30. so change that. after that i will commit changes till now to github, what all have we done till now, and what all changes are in this commit.
